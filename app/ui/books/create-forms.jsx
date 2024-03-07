@@ -1,22 +1,7 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-// import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
 
-export default function Form() {
+export default async function Form() {
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-xs"
         // onSubmit={handleSubmit}
