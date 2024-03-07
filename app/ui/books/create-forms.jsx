@@ -1,8 +1,36 @@
+import { Button } from "@/app/ui/button";
+import { revalidateTag } from "next/cache";
 
 export default async function Form() {
+  const addProductToDatabase = async (e) => {
+    "use server";
+    const name = e.get("name")?.toString();
+    const author = e.get("author")?.toString();
+    const genre = e.get("genre")?.toString();
+
+    if (!name || !author || !genre) return;
+
+    const newProduct = {
+      name,
+      author,
+      genre,
+    };
+
+    await fetch("https://[api-secret].mockapi.io/api/books/books", {
+      method: "POST",
+      body: JSON.stringify(newProduct),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    revalidateTag('books')
+  };
+
   return (
     <div className="flex justify-center items-center">
       <form
+        action={addProductToDatabase}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-xs"
         // onSubmit={handleSubmit}
       >
@@ -52,8 +80,8 @@ export default async function Form() {
               className="ml-2 shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="genre"
               name="genre"
-            //   value={formData.country}
-            //   onChange={handleChange}
+              //   value={formData.country}
+              //   onChange={handleChange}
               required
             >
               <option value="">Select genre</option>
@@ -72,6 +100,7 @@ export default async function Form() {
           >
             Submit
           </button>
+          {/* <Button type="submit">Add</Button> */}
         </div>
       </form>
     </div>

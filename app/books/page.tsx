@@ -5,6 +5,9 @@ export default async function Page() {
     "https://[api-secret].mockapi.io/api/books/books",
     {
       cache: "no-cache",
+      next: {
+        tags: ["books"]
+      }
     }
   );
 
