@@ -1,36 +1,26 @@
+"use client";
 import { Button } from "@/app/ui/button";
-import { revalidateTag } from "next/cache";
 
-export default async function Form() {
-  const addProductToDatabase = async (e) => {
-    "use server";
-    const name = e.get("name")?.toString();
-    const author = e.get("author")?.toString();
-    const genre = e.get("genre")?.toString();
+import { addProductToDatabase } from "@/app/actions/serverActions";
+import { useFormState } from "react-dom";
 
-    if (!name || !author || !genre) return;
+const initialState = {
+  message: "",
+};
 
-    const newProduct = {
-      name,
-      author,
-      genre,
-    };
+export default function Form() {
+  const [state, formAction] = useFormState(addProductToDatabase, initialState);
 
-    await fetch("https://[api-secret].mockapi.io/api/books/books", {
-      method: "POST",
-      body: JSON.stringify(newProduct),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    revalidateTag('books')
-  };
+  console.log("tk state", state);
 
   return (
     <div className="flex justify-center items-center">
+      <p>{state.message}</p>
+      <br/>
+      <p>{state?.id}</p>
       <form
-        action={addProductToDatabase}
+        // action={addProductToDatabase}
+        action={formAction}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-xs"
         // onSubmit={handleSubmit}
       >
