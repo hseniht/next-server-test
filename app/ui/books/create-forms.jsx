@@ -1,9 +1,10 @@
 "use client";
-import { Button, Button2 } from "@/app/ui/button";
+import { Button2 } from "@/app/ui/buttons";
 
-import { addProductToDatabase } from "@/app/actions/serverActions";
+// import { addProductToDatabase } from "@/app/actions/serverActions";
+import { addProductToDatabase } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
-import { BookPanel } from "@/app/ui/panels";
+import { useState } from "react";
 
 const initialState = {
   message: "",
@@ -11,20 +12,27 @@ const initialState = {
 
 export default function Form() {
   const [state, formAction] = useFormState(addProductToDatabase, initialState);
+  const [formData, setFormData] = useState({
+    name: "",
+    author: "",
+    genre: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   console.log("tk state", state);
-
-  const formData = new FormData();
-  formData.append("name", "Test Book 4");
-  formData.append("author", "Ivan");
-  formData.append("genre", "Fantasy");
 
   return (
     <div className="flex justify-center items-center">
       <p>{state.message}</p>
       <br />
       <p>{state?.id}</p>
-      <BookPanel />
       <form
         // action={addProductToDatabase}
         action={formAction}
@@ -44,7 +52,7 @@ export default function Form() {
               type="text"
               placeholder="Bookname"
               //   value={formData.name}
-              //   onChange={handleChange}
+              onChange={handleChange}
               required
             />
           </label>
@@ -62,7 +70,7 @@ export default function Form() {
               type="text"
               placeholder="author"
               //   value={formData.amount}
-              //   onChange={handleChange}
+              onChange={handleChange}
               required
             />
           </label>
@@ -78,7 +86,7 @@ export default function Form() {
               id="genre"
               name="genre"
               //   value={formData.country}
-              //   onChange={handleChange}
+              onChange={handleChange}
               required
             >
               <option value="">Select genre</option>
@@ -101,7 +109,7 @@ export default function Form() {
           {/* <Button type="submit">Add</Button> */}
         </div>
         <br />
-        <Button2 formData={formData}/>
+        <Button2 formData={formData} />
       </form>
     </div>
   );

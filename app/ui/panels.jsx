@@ -1,5 +1,6 @@
 import useSWR from "swr";
-import { addProductToDatabase } from "@/app/actions/serverActions";
+// import { addProductToDatabase } from "@/app/actions/serverActions";
+import { addProductToDatabase } from "@/app/lib/actions";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 const fetcher2 = addProductToDatabase;

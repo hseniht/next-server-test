@@ -1,3 +1,4 @@
+import { DeleteBook } from "@/app/books/buttons"
 const ProductTable = ({ products }) => {
   return (
     <div className="overflow-x-auto">
@@ -23,6 +24,9 @@ const ProductTable = ({ products }) => {
                 {product.genre}
               </td>
               <td className="border border-gray-600 px-4 py-2">{product.id}</td>
+              <td className="border border-gray-600 px-4 py-2">
+                <DeleteBook id={product.id} />
+              </td>
             </tr>
           ))}
         </tbody>
