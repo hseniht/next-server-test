@@ -15,3 +15,18 @@ export function BookPanel() {
   // render data
   return <div>useSWS: {data.name}!</div>;
 }
+
+export const Panel = ({ children }) => {
+  return (
+    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-xs">
+      {children}
+    </div>
+  );
+};
+
+export const PanelWrap = ({ hidden, children }) => {
+  if (hidden) {
+    return null;
+  }
+  return <div>{children}</div>;
+};

@@ -1,4 +1,4 @@
-import { DeleteBook } from "@/app/books/buttons"
+import { DeleteBook } from "@/app/ui/books/buttons"
 const ProductTable = ({ products }) => {
   return (
     <div className="overflow-x-auto">
