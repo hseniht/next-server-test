@@ -1,8 +1,9 @@
 "use client";
-import { Button } from "@/app/ui/button";
+import { Button, Button2 } from "@/app/ui/button";
 
 import { addProductToDatabase } from "@/app/actions/serverActions";
 import { useFormState } from "react-dom";
+import { BookPanel } from "@/app/ui/panels";
 
 const initialState = {
   message: "",
@@ -13,11 +14,17 @@ export default function Form() {
 
   console.log("tk state", state);
 
+  const formData = new FormData();
+  formData.append("name", "Test Book 4");
+  formData.append("author", "Ivan");
+  formData.append("genre", "Fantasy");
+
   return (
     <div className="flex justify-center items-center">
       <p>{state.message}</p>
-      <br/>
+      <br />
       <p>{state?.id}</p>
+      <BookPanel />
       <form
         // action={addProductToDatabase}
         action={formAction}
@@ -83,7 +90,8 @@ export default function Form() {
             </select>
           </label>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="items-center justify-between">
+          <p>{state?.name}</p>
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
@@ -92,6 +100,8 @@ export default function Form() {
           </button>
           {/* <Button type="submit">Add</Button> */}
         </div>
+        <br />
+        <Button2 formData={formData}/>
       </form>
     </div>
   );

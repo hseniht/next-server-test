@@ -14,6 +14,9 @@ export const addProductToDatabase = async (prevState: any, fd: FormData) => {
     genre,
   };
 
+  console.log("tk products", newProduct );
+  
+
   const response = await fetch("https://[api-secret].mockapi.io/api/books/books", {
     method: "POST",
     body: JSON.stringify(newProduct),
@@ -22,7 +25,9 @@ export const addProductToDatabase = async (prevState: any, fd: FormData) => {
     },
   });
 
+
   const responseData = await response.json();
+
 
   revalidateTag("books");
 
