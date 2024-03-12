@@ -3,21 +3,25 @@ import { useState, useTransition } from "react";
 import { addProductToDatabase, addProductToDatabase2 } from "@/app/lib/actions";
 import { Button2 } from "@/app/ui/buttons";
 import { PanelWrap } from "@/app/ui/panels";
+
+const initFormData = {
+  name: "",
+  author: "",
+  genre: "",
+};
+
+const initBook = {
+  id: "",
+  name: "",
+  author: "",
+  genre: "",
+};
+
 export default function Form2() {
-  const [formData, setFormData] = useState({
-    name: "",
-    author: "",
-    genre: "",
-  });
+  const [formData, setFormData] = useState(initFormData);
 
   const [isPending, startTransition] = useTransition();
-  const [name, setName] = useState("");
-  const [book, setBook] = useState({
-    id: "",
-    name: "",
-    author: "",
-    genre: "",
-  });
+  const [book, setBook] = useState(initBook);
   const [page, setPage] = useState(1);
 
   const objectToFormData = (obj) => {
@@ -36,14 +40,12 @@ export default function Form2() {
     });
   };
 
-  const onClick = () => {
-    startTransition(async () => {
-      const fd = objectToFormData(formData);
-      //   const { id, message, name } = await addProductToDatabase(null, fd);
-      const trData = await addProductToDatabase(null, fd);
-      //   console.log("tk transition data", id, name, message);
+  const onClick = async (event) => {
+    event.preventDefault();
+    const fd = objectToFormData(formData);
+    const trData = await addProductToDatabase(null, fd);
+    startTransition(() => {
       console.log("tk transition data", trData);
-      setName(name);
       setBook(trData);
       setPage(2);
     });
@@ -51,24 +53,31 @@ export default function Form2() {
 
   const onClick2 = () => {
     startTransition(async () => {
-      const dummyBook = {
-        name: "Book v2",
-        author: "test v2",
-        genre: "Action",
-      };
-      const fd = objectToFormData(dummyBook);
+      //   const dummyBook = {
+      //     name: "Book v2",
+      //     author: "test v2",
+      //     genre: "Action",
+      //   };
+      const fd = objectToFormData(book);
       //   const { id, message, name } = await addProductToDatabase(null, fd);
       const trData = await addProductToDatabase2(null, fd);
       //   console.log("tk transition data", id, name, message);
       console.log("tk transition data2", trData);
-      setName(name);
       setBook(trData);
       setPage(3);
     });
   };
 
+  const handleResetForm = () => {
+    setBook(initBook);
+    setFormData(initFormData);
+    setPage(1);
+    console.log("tk reset");
+  };
+
   return (
     <div className="flex justify-center items-center">
+      {isPending && <div>Is Pending ...</div>}
       <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-xs">
         {/* Step 1 */}
         <PanelWrap hidden={page !== 1}>
@@ -148,7 +157,6 @@ export default function Form2() {
         </PanelWrap>
         {/* Step 2 */}
         <PanelWrap hidden={page !== 2}>
-          <p>{name}</p>
           <div>
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -202,7 +210,6 @@ export default function Form2() {
         </PanelWrap>
         {/* Step 3 */}
         <PanelWrap hidden={page !== 3}>
-          <p>{name}</p>
           <div>
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
@@ -244,15 +251,15 @@ export default function Form2() {
               </dl>
             </div>
           </div>
-          {/* <button
+          <button
             className={
               "flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
             }
-            onClick={onClick2}
+            onClick={handleResetForm}
             disabled={isPending}
           >
-            Submit 2.0
-          </button> */}
+            Create New
+          </button>
         </PanelWrap>
       </div>
     </div>

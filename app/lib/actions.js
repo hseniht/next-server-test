@@ -30,16 +30,19 @@ export const addProductToDatabase = async (prevState, fd) => {
 
   const responseData = await addBookData(newProduct);
   
-  const test = await someAction(responseData);
+  // test another action call here
+  // const test = await someAction(responseData);
 
   revalidateTag("books");
 
-  return responseData;
-  // return {
-  //   message: "Response msg ..",
-  //   name: name + "edited",
-  //   id: responseData.id,
-  // };
+  // return responseData;
+  return {
+    // message: "Response msg ..",
+    name: responseData.name + " crypted",
+    author: responseData.author + " crypted",
+    genre: responseData.genre,
+    id: responseData.id,
+  };
 };
 
 

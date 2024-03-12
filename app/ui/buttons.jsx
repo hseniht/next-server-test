@@ -15,6 +15,7 @@ export function Button2({ formData }) {
   };
 
   const onClick = () => {
+    //TODO: use async outside startTransition()?
     startTransition(async () => {
       const fd = objectToFormData(formData);
       const { id, message, name } = await addProductToDatabase(null, fd);
