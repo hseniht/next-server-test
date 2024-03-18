@@ -1,6 +1,5 @@
 "use server";
 import { revalidateTag } from "next/cache";
-import { decryptData } from "../lib/utility";
 
 const API_SECRET = process.env.API_SECRET;
 
@@ -67,33 +66,6 @@ export async function addBookData2(newBook) {
       {
         method: "POST",
         body: JSON.stringify(newBook),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to add book data");
-    }
-
-    const addedBook = await response.json();
-    // revalidateTag("books");
-    return addedBook;
-  } catch (error) {
-    console.error("Error fetching book data:", error);
-    return null; // or handle the error appropriately
-  }
-}
-
-export async function addCryptedBook(newBook) {
-  const decryptedData = decryptData(newBook, process.env.ENCRYPTION_KEY);
-  try {
-    const response = await fetch(
-      `https://${API_SECRET}.mockapi.io/api/books/books2`,
-      {
-        method: "POST",
-        body: JSON.stringify(decryptedData),
         headers: {
           "Content-Type": "application/json",
         },

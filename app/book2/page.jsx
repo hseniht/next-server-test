@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { addToBook2db } from "@/app/lib/actions";
-import { encryptData, encryptionKey } from "../lib/utility";
+import { addCryptedBook } from "@/app/lib/actions";
+import { encryptData } from "../lib/utility";
 
 const initFormData = {
   name: "",
@@ -27,9 +27,9 @@ const MyForm = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const key = "YOUR_ENCRYPTION_KEY" // TODO get from .env
+    const key = process.env.NEXT_PUBLIC_ENCRYPTION_KEY;
     const ed = encryptData(formData, key);
-    const newBook = await addToBook2db(ed);
+    const newBook = await addCryptedBook(ed);
 
     setBook(newBook);
   };
