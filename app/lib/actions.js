@@ -3,8 +3,6 @@ import { revalidateTag } from "next/cache";
 import { addBookData, addBookData2 } from "./bookAPI";
 import { encryptData, decryptData } from "../lib/utility";
 
-// export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
-
 export const someAction = async (fd) => {
   console.log("some action");
   const responseData = await addBookData2(fd);
@@ -67,13 +65,13 @@ export const addProductToDatabase2 = async (prevState, fd) => {
 };
 
 export const getKey = async (data) => {
-  const key = process.env.ENCRYPTION_KEY;
+  const key = process.env.NEXT_PUBLIC_ENCRYPTION_KEY;
   return encryptData(data, key);
 };
 
 export async function addCryptedBook(newBook) {
   // return;
-  const key = process.env.ENCRYPTION_KEY;
+  const key = process.env.NEXT_PUBLIC_ENCRYPTION_KEY;
   const API_SECRET = process.env.API_SECRET;
   const decryptedData = decryptData(newBook, key);
   try {
